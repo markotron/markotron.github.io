@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pregled troškova režija</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    h1 {
+      margin-top: 0;
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    select {
+      padding: 10px 16px;
+      font-size: 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background-color: white;
+      color: #334155;
+      cursor: pointer;
+      outline: none;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+    }
+    .chart-container {
+      position: relative;
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Mjesečna potrošnja po kategorijama</h1>
+    
+    <div class="controls">
+      <select id="categorySelect">
+        <option value="Struja">Struja (HEP)</option>
+        <option value="Voda">Voda (Istarski vodovod)</option>
+        <option value="Pričuva">Pričuva</option>
+        <option value="Odvoz_otpada">Odvoz otpada (6. Maj)</option>
+        <option value="Internet">Internet (A1)</option>
+      </select>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const dataStore = {
+      "Struja": {
+        labels: ["11/2025", "12/2025", "01/2026", "02/2026"],
+        values: [10.58, 33.58, 41.61, 54.42],
+        color: 'rgba(59, 130, 246, 0.8)' // Blue
+      },
+      "Voda": {
+        labels: ["11/2025", "12/2025", "01/2026"],
+        values: [4.66, 6.42, 10.65],
+        color: 'rgba(14, 165, 233, 0.8)' // Light Blue
+      },
+      "Pričuva": {
+        labels: ["11/2025", "12/2025", "01/2026", "02/2026", "03/2026", "04/2026", "05/2026", "06/2026"],
+        values: [39.85, 39.85, 39.85, 39.85, 39.85, 39.85, 39.85, 39.85],
+        color: 'rgba(139, 92, 246, 0.8)' // Purple
+      },
+      "Odvoz_otpada": {
+        labels: ["11/2025", "12/2025", "01/2026", "02/2026"],
+        values: [5.84, 5.83, 10.18, 10.18],
+        color: 'rgba(34, 197, 94, 0.8)' // Green
+      },
+      "Internet": {
+        labels: ["01/2026", "02/2026"],
+        values: [1.10, 0.10],
+        color: 'rgba(249, 115, 22, 0.8)' // Orange
+      }
+    };
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    let myChart;
+
+    function renderChart(category) {
+      const data = dataStore[category];
+      
+      if (myChart) {
+        myChart.destroy();
+      }
+
+      myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: data.labels,
+          datasets: [{
+            label: 'Iznos (€)',
+            data: data.values,
+            backgroundColor: data.color,
+            borderRadius: 6,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.parsed.y + ' €';
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return value + ' €';
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize with default selection
+    const selectEl = document.getElementById('categorySelect');
+    renderChart(selectEl.value);
+
+    // Listen for changes
+    selectEl.addEventListener('change', (e) => {
+      renderChart(e.target.value);
+    });
+  </script>
+</body>
+</html>
