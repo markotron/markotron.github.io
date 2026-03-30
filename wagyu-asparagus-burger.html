@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wagyu burger sa šparogama</title>
+  <style>
+    :root {
+      --bg: #f7f7f3;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #0f766e;
+      --accent2: #7c2d12;
+      --border: #e5e7eb;
+      --soft: #f9fafb;
+      --highlight: #ecfeff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px 56px; }
+    header {
+      background: linear-gradient(135deg, #111827, #0f766e);
+      color: white;
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(17,24,39,.16);
+    }
+    h1 { margin: 0 0 8px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; }
+    .subtitle { margin: 0; max-width: 70ch; opacity: .92; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .chip {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: .92rem;
+    }
+    .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; margin-top: 18px; }
+    @media (max-width: 860px){ .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(17,24,39,.04);
+    }
+    h2 { margin: 0 0 12px; font-size: 1.2rem; }
+    h3 { margin: 0 0 10px; font-size: 1.05rem; }
+    ul, ol { margin: 0; padding-left: 22px; }
+    li { margin: 7px 0; }
+    .note {
+      background: var(--highlight);
+      border: 1px solid #cffafe;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 14px;
+    }
+    .muted { color: var(--muted); }
+    .variant {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      background: linear-gradient(180deg, #fff, #fcfcfd);
+      margin-top: 14px;
+    }
+    .tag {
+      display:inline-block; margin-right:8px; margin-top:8px;
+      padding: 5px 9px; border-radius: 999px; font-size: .86rem;
+      background: #f3f4f6; color: #374151;
+    }
+    .variant.good { border-left: 5px solid #10b981; }
+    .variant.more-lift { border-left: 5px solid #3b82f6; }
+    .variant.more-rich { border-left: 5px solid #8b5cf6; }
+    .compare {
+      width: 100%; border-collapse: collapse; margin-top: 10px; overflow: hidden; border-radius: 12px;
+    }
+    .compare th, .compare td { padding: 10px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    .compare th { background: var(--soft); font-size: .92rem; }
+    .footer { color: var(--muted); font-size: .95rem; margin-top: 18px; }
+    code { background: #eef2ff; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Wagyu burger sa šparogama</h1>
+      <p class="subtitle">Finalna verzija koju smo zapisali kao recept, plus dvije male varijacije s malim tvikovima — sve na jednoj stranici da ih možeš usporediti i ponoviti.</p>
+      <div class="chips">
+        <span class="chip">burger</span>
+        <span class="chip">wagyu</span>
+        <span class="chip">šparoge</span>
+        <span class="chip">dimljeni sir</span>
+        <span class="chip">mayo + senf + redukcija</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Finalna verzija</h2>
+        <p class="muted">Ovo je verzija koja je već bila “vrijedna zapisivanja”.</p>
+        <ol>
+          <li>Reduciraj temeljac od šparoga dok ne postane gust i okusno koncentriran.</li>
+          <li>Pecivo prereži i tostiraj na putru.</li>
+          <li>Pomiješaj majonezu, senf i malo redukcije od šparoga u umak.</li>
+          <li>Wagyu pljeskavice ispeci do željene medium/medium-rare točke.</li>
+          <li>Na vruću pljeskavicu stavi dimljeni sir da se otopi.</li>
+          <li>Na donje pecivo namaži umak, dodaj pljeskavicu i vrh s mladim špinatom.</li>
+        </ol>
+
+        <div class="note">
+          <strong>Zašto radi:</strong> šparoga ostaje pozadinska nota, dimljeni sir drži meso, a puterasto tostirano pecivo i mladi špinat daju dobar kontrast i svježinu.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Brza usporedba</h2>
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Element</th>
+              <th>Što daje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Reducirana šparoga</td><td>Zelena, blaga dubina i malo svježeg povrtnog tona</td></tr>
+            <tr><td>Dimljeni sir</td><td>Slankasti, topivi umami i “burger” osjećaj</td></tr>
+            <tr><td>Puterasto tostirano pecivo</td><td>Teksturu i masnoću koja povezuje sve</td></tr>
+            <tr><td>Špinat</td><td>Svježinu i malo “lift” bez agresivne gorčine</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:18px;">
+      <h2>Dvije nove verzije s malim tvikovima</h2>
+      <p class="muted">Male promjene, ista ideja. Tako vidiš što konkretno pomiče burger u drugu stranu.</p>
+
+      <div class="variant more-lift">
+        <h3>Verzija 2 — “više svježine”</h3>
+        <p><strong>Twikovi:</strong></p>
+        <span class="tag">+ 1 žličica limunovog soka u umaku</span>
+        <span class="tag">+ malo sitno sjeckanog kiselog krastavca</span>
+        <span class="tag">+ prstohvat crnog papra na kraju</span>
+        <p><strong>Što dobiješ:</strong> svjetliji umak, malo više kontrasta uz wagyu i dimljeni sir. Ova verzija je manje “bogata” i više osvježavajuća.</p>
+      </div>
+
+      <div class="variant more-rich">
+        <h3>Verzija 3 — “više dubine”</h3>
+        <p><strong>Twikovi:</strong></p>
+        <span class="tag">+ kap Worcestershirea</span>
+        <span class="tag">+ mrvica tartufate</span>
+        <span class="tag">+ malo više redukcije od šparoga</span>
+        <p><strong>Što dobiješ:</strong> tamniji, dublji, malo “gourmet” profil. Ovdje šparoga ostaje diskretna, a burger ide više prema bogatom umami smjeru.</p>
+      </div>
+
+      <div class="variant good">
+        <h3>Koju bih ja najprije probala?</h3>
+        <p>Za ponavljanje istog burgera, ja bih prvo išla na <strong>Verziju 2</strong> s malo limuna i kiselog krastavca, jer ti već imaš dosta bogatstva iz wagyua, sira i putra. To obično daje najbolji balans.</p>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:18px;">
+      <h2>Mini recept za umak</h2>
+      <ul>
+        <li>2 žlice majoneze</li>
+        <li>1 žličica senfa</li>
+        <li>1–1.5 žličica reducirane šparoge</li>
+        <li>malo limuna ili kap Worcestershirea po verziji</li>
+        <li>po želji mrvica tartufate</li>
+      </ul>
+      <p class="footer">Ova stranica je namjerno ostavljena jednostavna i čitka, da možeš brzo usporediti finalnu verziju i dva mala smjera za daljnje tweakove.</p>
+    </section>
+  </div>
+</body>
+</html>
