@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pašta sa šparogama 2.0</title>
+  <style>
+    :root {
+      --bg: #faf8f4;
+      --card: #ffffff;
+      --text: #24313f;
+      --muted: #64748b;
+      --accent: #2f855a;
+      --accent-2: #0f766e;
+      --border: #e5e7eb;
+      --soft: #f3f4f6;
+      --warning: #fef3c7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f9fafb, var(--bg));
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 28px 18px 56px;
+    }
+    header {
+      background: linear-gradient(135deg, #1f2937, #0f766e);
+      color: white;
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+    }
+    h1 { margin: 0 0 8px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; }
+    .subtitle { margin: 0; opacity: .9; max-width: 60ch; }
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;
+    }
+    .chip {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .92rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    @media (max-width: 760px){ .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(15,23,42,.04);
+    }
+    h2 { margin: 0 0 12px; font-size: 1.2rem; }
+    ul, ol { margin: 0; padding-left: 22px; }
+    li { margin: 6px 0; }
+    .servings {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    input[type="range"] { width: min(320px, 100%); }
+    .big {
+      font-size: 1.8rem; font-weight: 750; color: var(--accent-2);
+    }
+    .table {
+      width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 12px;
+      margin-top: 10px;
+    }
+    .table th, .table td {
+      border-bottom: 1px solid var(--border);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .table th { background: var(--soft); font-size: .92rem; color: #334155; }
+    .table tr:last-child td { border-bottom: 0; }
+    .note {
+      background: var(--warning);
+      border: 1px solid #fde68a;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 14px;
+    }
+    .muted { color: var(--muted); }
+    .footer {
+      margin-top: 18px; color: var(--muted); font-size: .95rem;
+    }
+    .recipe-step strong { color: #0f172a; }
+    .scale-line { font-variant-numeric: tabular-nums; }
+    .mini {
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;
+    }
+    .pill {
+      background: #ecfeff; border: 1px solid #cffafe; border-radius: 999px; padding: 6px 10px; font-size:.9rem;
+      color:#155e75;
+    }
+    code { background:#eef2ff; padding:2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Pašta sa šparogama 2.0</h1>
+      <p class="subtitle">Finalna verzija nakon prvog kuhanja: guanciale, luk, šparoge, vino, asparagus stock + voda od pašte, pecorino, papar i malo limuna za završni lift.</p>
+      <div class="meta">
+        <div class="chip">Sezonska pašta</div>
+        <div class="chip">Umami + svježina</div>
+        <div class="chip">Za 2–6 porcija</div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Odaberi broj ljudi</h2>
+        <div class="servings">
+          <label for="servings"><strong>Porcije:</strong></label>
+          <input id="servings" type="range" min="1" max="6" step="1" value="2">
+          <div class="big"><span id="servingsValue">2</span></div>
+        </div>
+        <div class="muted">Količine se skaliraju automatski iz baze za 2 porcije.</div>
+
+        <table class="table" aria-label="Sastojci">
+          <thead>
+            <tr>
+              <th>Sastojak</th>
+              <th>Količina</th>
+            </tr>
+          </thead>
+          <tbody id="ingredients"></tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>Finalna metoda</h2>
+        <ol>
+          <li class="recipe-step"><strong>Guanciale:</strong> stavi ga na tavu i pusti da se mast istopi. Izvadi komadiće i ostavi mast.</li>
+          <li class="recipe-step"><strong>Luk + inćun:</strong> na toj masti omekšaj luk i po želji otopi 1 inćun za dubinu okusa.</li>
+          <li class="recipe-step"><strong>Šparoge:</strong> dodaj vrškove šparoga i kratko ih obradi.</li>
+          <li class="recipe-step"><strong>Deglaziranje:</strong> podlij bijelim vinom i pusti da malo reducira.</li>
+          <li class="recipe-step"><strong>Temeljac:</strong> dodaj malo gustog temeljca od stabljika šparoga, po potrebi i malo vode od pašte.</li>
+          <li class="recipe-step"><strong>Pašta + završetak:</strong> ubaci al dente paštu, promiješaj s tekućinom i na kraju ugasi vatru te umiješaj pecorino, crni papar i mrvu limuna.</li>
+        </ol>
+
+        <div class="note">
+          <strong>Na što paziti:</strong> cilj je više <em>okusne dubine</em> i malo više kiseline na kraju. Guanciale, pecorino i inćun već nose sol i umami, pa sol dodaj tek na kraju ako stvarno treba.
+        </div>
+
+        <div class="mini">
+          <div class="pill">temeljac od stabljika</div>
+          <div class="pill">voda od pašte za emulziju</div>
+          <div class="pill">pecorino van vatre</div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:18px;">
+      <h2>Zašto ova verzija radi bolje</h2>
+      <ul>
+        <li><strong>guanciale</strong> daje masnoću i bazu</li>
+        <li><strong>inćun</strong> pojačava umami bez ribljeg okusa</li>
+        <li><strong>temeljac od šparoga</strong> vraća okus povrća i daje gustoću</li>
+        <li><strong>voda od pašte</strong> pomaže da se sir i mast vežu u kremasti umak</li>
+        <li><strong>limun</strong> podiže jelo i sprečava da bude teško</li>
+      </ul>
+      <div class="footer">Ova stranica je interaktivna: mijenjaj porcije i količine će se odmah preračunati.</div>
+    </section>
+  </div>
+
+  <script>
+    const base = [
+      { name: 'Pašta', qty: 180, unit: 'g' },
+      { name: 'Šparoge (vrškovi)', qty: 1, unit: 'vezica' },
+      { name: 'Guanciale', qty: 80, unit: 'g' },
+      { name: 'Luk', qty: 1, unit: 'kom' },
+      { name: 'Bijelo vino', qty: 60, unit: 'ml' },
+      { name: 'Temeljac od šparoga', qty: 120, unit: 'ml' },
+      { name: 'Voda od pašte', qty: 120, unit: 'ml' },
+      { name: 'Pecorino Romano', qty: 30, unit: 'g' },
+      { name: 'Crni papar', qty: 1, unit: 'žličica' },
+      { name: 'Limun / limunova korica', qty: 0.5, unit: 'kom' },
+      { name: 'Inćun (opcionalno)', qty: 1, unit: 'kom' }
+    ];
+
+    const servingsInput = document.getElementById('servings');
+    const servingsValue = document.getElementById('servingsValue');
+    const ingredientsEl = document.getElementById('ingredients');
+
+    function formatQty(value, unit) {
+      const rounded = Math.round(value * 10) / 10;
+      if (unit === 'kom' || unit === 'vezica') {
+        return `${rounded % 1 === 0 ? rounded : rounded.toFixed(1)} ${unit}`;
+      }
+      return `${rounded % 1 === 0 ? rounded : rounded.toFixed(1)} ${unit}`;
+    }
+
+    function render() {
+      const servings = Number(servingsInput.value);
+      servingsValue.textContent = servings;
+      const factor = servings / 2;
+      ingredientsEl.innerHTML = base.map(item => {
+        const qty = item.qty * factor;
+        return `<tr><td>${item.name}</td><td class="scale-line">${formatQty(qty, item.unit)}</td></tr>`;
+      }).join('');
+    }
+
+    servingsInput.addEventListener('input', render);
+    render();
+  </script>
+</body>
+</html>
