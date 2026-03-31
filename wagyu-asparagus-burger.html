@@ -26,11 +26,17 @@
     }
     .wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px 56px; }
     header {
-      background: linear-gradient(135deg, #111827, #0f766e);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(17,24,39,.82), rgba(15,118,110,.78)), url('burger-hero.jpg') center/cover no-repeat;
       color: white;
       border-radius: 22px;
       padding: 28px;
       box-shadow: 0 10px 30px rgba(17,24,39,.16);
+      min-height: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
     }
     h1 { margin: 0 0 8px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; }
     .subtitle { margin: 0; max-width: 70ch; opacity: .92; }
