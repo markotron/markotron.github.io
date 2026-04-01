@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teleća rebarca na kamadu</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #171b22;
+      --text: #e8ecf1;
+      --muted: #aab3bf;
+      --accent: #ffb347;
+      --line: #2a3140;
+      --ok: #7ee081;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: linear-gradient(180deg, #0f1115, #141923 45%, #0f1115);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 32px 18px 56px; }
+    .hero {
+      background: radial-gradient(circle at top right, rgba(255,179,71,.18), transparent 35%),
+                  linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.28);
+    }
+    h1, h2, h3 { line-height: 1.15; margin: 0 0 12px; }
+    h1 { font-size: clamp(2rem, 4vw, 3.2rem); }
+    h2 { margin-top: 30px; font-size: 1.35rem; }
+    p { margin: 0 0 12px; color: var(--text); }
+    .lead { color: var(--muted); max-width: 62ch; }
+    .badge {
+      display: inline-block; padding: 6px 10px; border-radius: 999px;
+      background: rgba(255,179,71,.12); color: var(--accent); border: 1px solid rgba(255,179,71,.28);
+      font-size: .9rem; margin-bottom: 14px;
+    }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 18px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px;
+    }
+    ul, ol { margin: 10px 0 0 20px; padding: 0; }
+    li { margin: 6px 0; }
+    .note { color: var(--muted); font-size: .96rem; }
+    .accent { color: var(--accent); }
+    .ok { color: var(--ok); }
+    .timeline {
+      display: grid; gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    .step { padding: 14px; border-radius: 14px; background: rgba(255,255,255,.03); border: 1px solid var(--line); }
+    .footer { margin-top: 26px; color: var(--muted); font-size: .92rem; }
+    code { background: rgba(255,255,255,.06); padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <span class="badge">Kamado plan • 4 kg telećih rebara u komadu</span>
+      <h1>Teleća rebarca na kamadu</h1>
+      <p class="lead">Cilj je dobiti meso koje je dovoljno dugo pečeno da omekša, ali bez da se osuši. Teleća rebarca su delikatnija od goveđih: traže nižu temperaturu, malo više opreza i dobar odmor prije rezanja.</p>
+    </section>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Kako ih pripremiti</h2>
+        <ol>
+          <li>Makni višak opni i tvrdih dijelova, ali ne skidaj sav masni sloj.</li>
+          <li>Posoli meso unaprijed: <strong>12–18 g soli po kg</strong> ukupno.</li>
+          <li>Za rub: crni papar, malo češnjaka u prahu, slatka paprika i po želji korica limuna.</li>
+          <li>Ako želiš više dubine, premaži tanko s senfom ili maslinovim uljem prije začinjavanja.</li>
+        </ol>
+        <p class="note">Za 4 kg: računaj otprilike 50–70 g soli ukupno, ovisno koliko voliš izražen okus.</p>
+      </div>
+
+      <div class="card">
+        <h2>Pečenje na kamadu</h2>
+        <div class="timeline">
+          <div class="step"><strong>1. Setup</strong><br>Indirektna zona, 130–150°C, lagani dim.</div>
+          <div class="step"><strong>2. Prva faza</strong><br>Peći dok ne omekšaju i ne krenu se odvajati od kosti.</div>
+          <div class="step"><strong>3. Glazura</strong><br>U zadnjih 30–45 min premaži umakom ili maslacem.</div>
+          <div class="step"><strong>4. Odmor</strong><br>Odmori 20–30 min prije rezanja.</div>
+        </div>
+        <p class="note">Ako je komad jako debeo, može trajati 4–6 sati. Ne lovi sat, nego mekoću.</p>
+      </div>
+    </div>
+
+    <h2>Najbolji prilog</h2>
+    <div class="grid">
+      <div class="card">
+        <h3 class="accent">1) Pire od krumpira s maslacem i malo hrena</h3>
+        <p>Najsigurniji izbor: kremast, neutralan, hvata sokove i ne natječe se s mesom.</p>
+      </div>
+      <div class="card">
+        <h3 class="accent">2) Pečeno korjenasto povrće</h3>
+        <p>Mrkva, pastrnjak, celer i luk na istoj temperaturi kao rebarca ili malo kasnije.</p>
+      </div>
+      <div class="card">
+        <h3 class="accent">3) Svježa salata s kiselinom</h3>
+        <p>Rikola, radič ili kupus salata s limunom / octom da podigne masnoću i zaokruži zalogaj.</p>
+      </div>
+    </div>
+
+    <h2>Moj prijedlog za ovaj put</h2>
+    <div class="card">
+      <p><strong>Mesu:</strong> suhi rub s soli, paprom, češnjakom i paprikom; kamado na 140°C, indirektno, dok ne omekša.</p>
+      <p><strong>Prilog:</strong> kremasti pire od krumpira + pečeni luk i mrkva. Ako želiš nešto svježije, dodaj salatu od radiča s limunom.</p>
+      <p><strong>Umak:</strong> sokovi iz pečenja reducirani s malo vina ili temeljca, pa umiješaj komadić hladnog maslaca na kraju.</p>
+    </div>
+
+    <h2>Kako ćemo ga dalje upgrejdati</h2>
+    <div class="card">
+      <p>Možemo ovaj recept živjeti kao <strong>verziju 1</strong>, a ti mi nakon pečenja pošalješ što je bilo dobro i što je falilo. Ja ću onda ažurirati recept s tvojim feedbackom — kao živi zapis, ne mrtva uputa.</p>
+      <p class="note">Ako pošalješ fotke, mogu ih također povezati s receptom u sljedećoj verziji.</p>
+    </div>
+
+    <p class="footer">Ember • recept za Marka • fokus: okus, tekstura, ponovljivost</p>
+  </div>
+</body>
+</html>
