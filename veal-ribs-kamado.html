@@ -5,191 +5,118 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Teleća rebarca na kamadu</title>
   <style>
-    :root {
-      --bg: #0f1115;
-      --card: #171b22;
-      --text: #e8ecf1;
-      --muted: #aab3bf;
-      --accent: #ffb347;
-      --line: #2a3140;
-      --ok: #7ee081;
-    }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: linear-gradient(180deg, #0f1115, #141923 45%, #0f1115);
-      color: var(--text);
-      line-height: 1.55;
-    }
-    .wrap { max-width: 820px; margin: 0 auto; padding: 32px 18px 56px; }
-    .hero {
-      background: radial-gradient(circle at top right, rgba(255,179,71,.18), transparent 35%),
-                  linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.28);
-    }
-    h1, h2, h3 { line-height: 1.15; margin: 0 0 12px; }
-    h1 { font-size: clamp(2rem, 4vw, 3.2rem); }
-    h2 { margin-top: 30px; font-size: 1.35rem; }
-    p { margin: 0 0 12px; color: var(--text); }
-    .lead { color: var(--muted); max-width: 62ch; }
-    .badge {
-      display: inline-block; padding: 6px 10px; border-radius: 999px;
-      background: rgba(255,179,71,.12); color: var(--accent); border: 1px solid rgba(255,179,71,.28);
-      font-size: .9rem; margin-bottom: 14px;
-    }
-    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 18px; }
-    .card {
-      background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px;
-    }
-    ul, ol { margin: 10px 0 0 20px; padding: 0; }
-    li { margin: 6px 0; }
-    .note { color: var(--muted); font-size: .96rem; }
-    .accent { color: var(--accent); }
-    .ok { color: var(--ok); }
-    .timeline {
-      display: grid; gap: 12px;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    }
-    .step { padding: 14px; border-radius: 14px; background: rgba(255,255,255,.03); border: 1px solid var(--line); }
-    .footer { margin-top: 26px; color: var(--muted); font-size: .92rem; }
-    code { background: rgba(255,255,255,.06); padding: 2px 6px; border-radius: 6px; }
+    :root{--bg:#0f1115;--card:#171b22;--text:#eef2f7;--muted:#aeb7c2;--accent:#ffb347;--line:#2a3140;--green:#7ee081}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#0f1115,#131823 40%,#0f1115);color:var(--text);line-height:1.58}
+    .wrap{max-width:1060px;margin:0 auto;padding:28px 18px 48px}
+    .hero{display:grid;gap:18px;grid-template-columns:1.05fr .95fr;align-items:center;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 16px 50px rgba(0,0,0,.25)}
+    @media (max-width: 860px){.hero{grid-template-columns:1fr}}
+    h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3.4rem);line-height:1.05}
+    h2{margin:0 0 12px;font-size:1.28rem}
+    h3{margin:0 0 10px;font-size:1.05rem}
+    p{margin:0 0 12px}
+    .muted{color:var(--muted)}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,179,71,.12);border:1px solid rgba(255,179,71,.28);color:var(--accent);font-size:.9rem;margin-bottom:14px}
+    .img{width:100%;border-radius:20px;border:1px solid var(--line);display:block;background:#10131a}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:18px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+    ul,ol{margin:10px 0 0 20px;padding:0}
+    li{margin:6px 0}
+    .quote{padding:14px 16px;border-left:4px solid var(--accent);background:rgba(255,179,71,.08);border-radius:12px}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}
+    figure{margin:0}
+    figcaption{color:var(--muted);font-size:.92rem;margin-top:8px}
+    .footer{margin-top:18px;color:var(--muted);font-size:.92rem}
+    .ok{color:var(--green)}
   </style>
 </head>
 <body>
   <div class="wrap">
     <section class="hero">
-      <span class="badge">Kamado plan • 4 kg telećih rebara u komadu</span>
-      <h1>Teleća rebarca na kamadu</h1>
-      <p class="lead">Cilj je dobiti meso koje je dovoljno dugo pečeno da omekša, ali bez da se osuši. Teleća rebarca su delikatnija od goveđih: traže nižu temperaturu, malo više opreza i dobar odmor prije rezanja.</p>
+      <div>
+        <span class="badge">Kamado • osnovni recept • verzija 1</span>
+        <h1>Teleća rebarca na kamadu</h1>
+        <p class="muted">Bazni plan za 4 kg telećih rebara: danas soljenje i sušenje u frižideru, sutra tanki senf + dry rub, sporo indirektno pečenje i završni premaz zadnjih sat vremena.</p>
+        <div class="quote">
+          <strong>Osnovna logika:</strong> prvo sol preko noći zbog unutarnjeg začinjavanja i bolje sočnosti, a rub tek sutra da korica ostane čišća i urednija.
+        </div>
+      </div>
+      <div>
+        <img class="img" src="veal-ribs-prep-01.jpg" alt="Teleća rebarca pripremljena za overnight dry brine">
+      </div>
     </section>
 
     <div class="grid">
       <div class="card">
-        <h2>Kako ih pripremiti</h2>
+        <h2>Danas</h2>
         <ol>
-          <li>Makni višak opni i tvrdih dijelova, ali ne skidaj sav masni sloj.</li>
-          <li><strong>Danas:</strong> samo posoli meso unaprijed — za ovaj komad je to najpametniji overnight korak.</li>
-          <li><strong>Sutra prije pečenja:</strong> tanko premaži senfom pa nanesi dry rub.</li>
-          <li>Ne stavljaj rub danas ako želiš čišću koricu i bolju kontrolu boje.</li>
+          <li>Makni samo višak tvrdih opni i neuglednih komada.</li>
+          <li>Posoli cijeli komad s <strong>48–60 g soli</strong> ukupno.</li>
+          <li>Stavi u frižider <strong>otkriveno</strong>, idealno na rešetki.</li>
         </ol>
-        <p class="note">Za 4 kg: ciljaj oko <strong>48–60 g soli</strong> ukupno (12–15 g/kg). Teleća rebarca bolje reagiraju na umjerenije soljenje nego agresivan BBQ pristup.</p>
+        <p class="muted">To je dry brine faza. Površina se lagano suši, a sol polako ulazi u meso.</p>
       </div>
 
       <div class="card">
-        <h2>Pečenje na kamadu</h2>
-        <div class="timeline">
-          <div class="step"><strong>1. Setup</strong><br>Indirektna zona, 130–150°C, lagani dim.</div>
-          <div class="step"><strong>2. Prva faza</strong><br>Peći dok ne omekšaju i ne krenu se odvajati od kosti.</div>
-          <div class="step"><strong>3. Glazura</strong><br>U zadnjih 60 min kreni s premazivanjem u 2–3 tanka sloja.</div>
-          <div class="step"><strong>4. Odmor</strong><br>Odmori 20–30 min prije rezanja.</div>
-        </div>
-        <p class="note">Ako je komad jako debeo, može trajati 4–6 sati. Ne lovi sat, nego mekoću.</p>
-      </div>
-    </div>
-
-    <h2>Točan plan: danas vs. sutra</h2>
-    <div class="grid">
-      <div class="card">
-        <h3 class="accent">Danas</h3>
-        <ul>
-          <li>Posoli cijeli komad.</li>
-          <li>Stavi ga u frižider na pladanj ili rešetku.</li>
-          <li>Nemoj još dodavati senf ni dry rub.</li>
-        </ul>
-        <p class="note">Sol treba vrijeme da uđe u meso. To je korisni dio overnight pripreme.</p>
-      </div>
-      <div class="card">
-        <h3 class="accent">Sutra, 30–60 min prije pečenja</h3>
-        <ul>
-          <li>Izvadi rebarca iz frižidera.</li>
-          <li>Namaži vrlo tanki sloj senfa.</li>
+        <h2>Sutra prije pečenja</h2>
+        <ol>
+          <li>Izvadi rebarca 30–60 min prije pečenja.</li>
+          <li>Namaži <strong>vrlo tanko</strong> senfom.</li>
           <li>Dodaj dry rub ravnomjerno po cijeloj površini.</li>
-          <li>Stavi na kamado kad se rub primi za površinu.</li>
+        </ol>
+        <p class="muted">Senf je binder, ne marinada. Ne treba ga puno.</p>
+      </div>
+
+      <div class="card">
+        <h2>Dry rub</h2>
+        <ul>
+          <li>2 žlice crnog papra</li>
+          <li>2 žlice slatke paprike</li>
+          <li>1 žlica češnjaka u prahu</li>
+          <li>1 žlica luka u prahu</li>
+          <li>1 žličica timijana</li>
+          <li>po želji malo limunove korice</li>
+          <li><strong>vrlo malo ili nimalo šećera</strong></li>
         </ul>
-        <p class="note">Senf ovdje radi kao binder i lagani sloj kiselosti — nije cilj da marinira preko noći.</p>
       </div>
     </div>
 
-    <h2>Zašto ne rub danas?</h2>
-    <div class="card">
-      <p>Ako rub staviš večer prije, pogotovo s paprikom, češnjakom, paprom ili šećerom, površina često povuče previše vlage i pretvori se u mokru pastu. To može dati manje urednu koricu i povećati šansu da meso prerano potamni.</p>
-      <p><strong>Bolji redoslijed za ovaj komad:</strong> danas sol, sutra senf + rub.</p>
-    </div>
-
-    <h2>Dry rub za 4 kg telećih rebara</h2>
-    <div class="card">
-      <ul>
-        <li>2 žlice svježe mljevenog crnog papra</li>
-        <li>2 žlice slatke paprike</li>
-        <li>1 žlica češnjaka u prahu</li>
-        <li>1 žlica luka u prahu</li>
-        <li>1 žličica suhog timijana ili vrlo malo ružmarina</li>
-        <li>po želji 1 žličica korice limuna</li>
-        <li>šećer: vrlo malo ili nimalo</li>
-      </ul>
-      <p class="note">Teleća rebarca su nježnija od beef ribs. Zato rub neka bude aromatičan, ali ne agresivan i ne presladak.</p>
-    </div>
-
-    <h2>Sutrašnji mini timeline</h2>
-    <div class="card">
-      <ul>
-        <li><strong>Večeras:</strong> sol i frižider.</li>
-        <li><strong>Sutra 30–60 min prije pečenja:</strong> senf + dry rub.</li>
-        <li><strong>Pečenje:</strong> kamado indirektno na oko 140°C.</li>
-        <li><strong>Zadnjih 60 min:</strong> premazuj tanko svaka 15–20 min.</li>
-        <li><strong>Prije rezanja:</strong> odmori 20–30 min.</li>
-      </ul>
-    </div>
-
-    <h2>Najbolji prilog</h2>
     <div class="grid">
       <div class="card">
-        <h3 class="accent">1) Pire od krumpira s maslacem i malo hrena</h3>
-        <p>Najsigurniji izbor: kremast, neutralan, hvata sokove i ne natječe se s mesom.</p>
+        <h2>Pečenje</h2>
+        <ol>
+          <li>Kamado postavi na <strong>140°C</strong>, indirektno.</li>
+          <li>Peči polako dok meso ne omekša.</li>
+          <li>Ne vodi se samo satom — prati mekoću i otpuštanje uz kost.</li>
+          <li>Odmori 20–30 min prije rezanja.</li>
+        </ol>
       </div>
       <div class="card">
-        <h3 class="accent">2) Pečeno korjenasto povrće</h3>
-        <p>Mrkva, pastrnjak, celer i luk na istoj temperaturi kao rebarca ili malo kasnije.</p>
+        <h2>Premaz zadnjih 60 min</h2>
+        <ul>
+          <li>3 žlice jabučnog octa ili limuna</li>
+          <li>1–2 žlice meda</li>
+          <li>1 žličica senfa</li>
+          <li>1 mala žlica Worcestershirea ili soje</li>
+          <li>sol + papar</li>
+          <li>po želji malo soka iz pečenja</li>
+        </ul>
+        <p class="muted">Premazuj <strong>svakih 15–20 min</strong> u 2–3 tanka sloja.</p>
       </div>
-      <div class="card">
-        <h3 class="accent">3) Svježa salata s kiselinom</h3>
-        <p>Rikola, radič ili kupus salata s limunom / octom da podigne masnoću i zaokruži zalogaj.</p>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h2>Galerija kuhanja</h2>
+      <p class="muted">Ovdje počinjemo slagati tijek recepta kroz tvoje stvarne fotke.</p>
+      <div class="gallery">
+        <figure>
+          <img class="img" src="veal-ribs-prep-01.jpg" alt="Teleća rebarca u frižideru prije pečenja">
+          <figcaption>Dan prije: posoljeno i ostavljeno na rešetki u frižideru.</figcaption>
+        </figure>
       </div>
     </div>
 
-    <h2>Moj prijedlog za ovaj put</h2>
-    <div class="card">
-      <p><strong>Mesu:</strong> suhi rub s soli, paprom, češnjakom i paprikom; kamado na 140°C, indirektno, dok ne omekša.</p>
-      <p><strong>Prilog:</strong> kremasti pire od krumpira + pečeni luk i mrkva. Ako želiš nešto svježije, dodaj salatu od radiča s limunom.</p>
-      <p><strong>Umak:</strong> sokovi iz pečenja reducirani s malo vina ili temeljca, pa umiješaj komadić hladnog maslaca na kraju.</p>
-    </div>
-
-    <h2>Čime premazivati zadnjih sat vremena</h2>
-    <div class="card">
-      <p>Da — može i <strong>bez maslaca</strong>. Maslac nije obavezan; on samo daje više sjaja, malo bogatiji okus i pomaže da se glaze ravnomjernije veže za površinu. Bez njega dobiješ čišći, oštriji okus i manje rizika da premaz potamni prebrzo.</p>
-      <p><strong>Bezmasni premaz za teleća rebarca:</strong></p>
-      <ul>
-        <li>3 žlice jabučnog octa ili limunova soka</li>
-        <li>1–2 žlice meda ili smeđeg šećera</li>
-        <li>1 žličica senfa</li>
-        <li>1 mala žlica Worcestershirea ili sojinog umaka</li>
-        <li>prstohvat soli i crnog papra</li>
-        <li>po želji 1–2 žlice soka iz tepsije / kapanja s mesa</li>
-      </ul>
-      <p>Pomiješaj, pa premaži <strong>svakih 15–20 minuta</strong> u <strong>2–3 vrlo tanka sloja</strong>. Ako je temperatura viša od 150°C, idi još tanje da se šećer ne spali.</p>
-      <p class="note">Ako želiš još bolju boju bez maslaca, na kraju zadnjih 10 minuta možeš napraviti završni premaz s malo soka iz pečenja i meda.</p>
-    </div>
-
-    <h2>Kako ćemo ga dalje upgrejdati</h2>
-    <div class="card">
-      <p>Možemo ovaj recept živjeti kao <strong>verziju 1</strong>, a ti mi nakon pečenja pošalješ što je bilo dobro i što je falilo. Ja ću onda ažurirati recept s tvojim feedbackom — kao živi zapis, ne mrtva uputa.</p>
-      <p class="note">Ako pošalješ fotke, mogu ih također povezati s receptom u sljedećoj verziji.</p>
-    </div>
-
-    <p class="footer">Ember • recept za Marka • fokus: okus, tekstura, ponovljivost</p>
+    <p class="footer">Ember • recept će se dalje nadograđivati s tvojim slikama i feedbackom</p>
   </div>
 </body>
 </html>
