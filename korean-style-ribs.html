@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Korejska rebarca s roštilja</title>
+  <style>
+    :root{--bg:#0f1115;--card:#171b22;--text:#eef2f7;--muted:#aeb7c2;--accent:#ff5e5e;--line:#2a3140;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#0f1115,#131823 40%,#0f1115);color:var(--text);line-height:1.58}
+    .wrap{max-width:1060px;margin:0 auto;padding:28px 18px 48px}
+    .hero{display:grid;gap:18px;grid-template-columns:1.05fr .95fr;align-items:center;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 16px 50px rgba(0,0,0,.25)}
+    @media (max-width: 860px){.hero{grid-template-columns:1fr}}
+    h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3.4rem);line-height:1.05}
+    h2{margin:0 0 12px;font-size:1.28rem}
+    p{margin:0 0 12px}
+    .muted{color:var(--muted)}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,94,94,.12);border:1px solid rgba(255,94,94,.28);color:var(--accent);font-size:.9rem;margin-bottom:14px}
+    .img{width:100%;border-radius:20px;border:1px solid var(--line);display:block;background:#10131a}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:18px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+    ul,ol{margin:10px 0 0 20px;padding:0}
+    li{margin:6px 0}
+    .quote{padding:14px 16px;border-left:4px solid var(--accent);background:rgba(255,94,94,.08);border-radius:12px}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}
+    figure{margin:0}
+    figcaption{color:var(--muted);font-size:.92rem;margin-top:8px}
+    .footer{margin-top:18px;color:var(--muted);font-size:.92rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <span class="badge">Kamado • Korean BBQ • hit recept</span>
+        <h1>Korejska rebarca s roštilja</h1>
+        <p class="muted">Tanja goveđa rebarca (LA Galbi stil) u ljepljivoj, slatko-slanoj marinadi. Brzo se peku i traže česte okrete, ali rezultat je brutalan.</p>
+        <div class="quote">
+          <strong>Markov feedback nakon pečenja:</strong> "Ova rebarca su odlicna!"
+        </div>
+      </div>
+      <div>
+        <img class="img" src="korean-ribs-finished.jpg" alt="Savršeno ispečena korejska rebarca">
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Marinada (za ~800g mesa)</h2>
+        <ul>
+          <li><strong>50 ml</strong> soja sosa</li>
+          <li><strong>1 žlica</strong> mirina (ili mirin-style začina)</li>
+          <li><strong>1 žlica</strong> meda (ako koristiš mirin-style, smanji s 1.5 na 1)</li>
+          <li><strong>1 žlica</strong> sezamovog ulja</li>
+          <li><strong>3 režnja</strong> češnjaka (sitno)</li>
+          <li><strong>1.5 žličica</strong> svježeg đumbira (naribano)</li>
+          <li><strong>1 žličica</strong> gochugarua ili čilija</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Priprema i pečenje</h2>
+        <ol>
+          <li>Sve pomiješaj i dobro izmasiraj rebarca u marinadi.</li>
+          <li>Ostavi minimalno 4 sata, idealno preko noći u frižideru.</li>
+          <li><strong>Ključno:</strong> obriši višak marinade prije pečenja da šećer ne zagori prebrzo.</li>
+          <li>Peci na kamadu na srednjoj / srednje-jakoj vatri (ne na najdirektnijem užarenom dijelu).</li>
+          <li>Okreći često! Zbog marinade će brzo karamelizirati.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h2>Galerija</h2>
+      <div class="gallery">
+        <figure>
+          <img class="img" src="korean-ribs-raw.jpg" alt="Rebarca na vatri">
+          <figcaption>Faza 1: Obriši višak marinade i na mirniju vatru.</figcaption>
+        </figure>
+        <figure>
+          <img class="img" src="korean-ribs-finished.jpg" alt="Gotova rebarca">
+          <figcaption>Faza 2: Rezultat nakon čestog okretanja — savršena karamelizacija.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <p class="footer">Ember • trajni kanonski zapis odličnog rezultata</p>
+  </div>
+</body>
+</html>
