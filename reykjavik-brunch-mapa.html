@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reykjavik brunch mapa</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0f1115;
+      --panel: #171a21;
+      --muted: #97a0af;
+      --text: #eef2f7;
+      --accent: #7cc4ff;
+      --good: #78e08f;
+      --warn: #ffd166;
+      --border: rgba(255,255,255,.08);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --muted: #5f6b7a;
+        --text: #111827;
+        --accent: #0b6bcb;
+        --good: #0c8a43;
+        --warn: #a05a00;
+        --border: rgba(0,0,0,.08);
+      }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.05; margin: 0 0 10px; }
+    .sub { color: var(--muted); max-width: 760px; }
+    .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px; margin-top: 22px; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+    #map { width: 100%; height: 560px; border: 0; background: #d8dee9; }
+    .content { padding: 18px; }
+    .legend { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; color:var(--muted); font-size:14px; }
+    .chip { border:1px solid var(--border); border-radius:999px; padding:6px 10px; }
+    .cards { display:grid; gap:14px; }
+    .card { padding:16px; border-top:1px solid var(--border); }
+    .card:first-child { border-top:0; }
+    h2 { margin: 0 0 6px; font-size: 20px; }
+    .meta { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+    .price { font-weight: 700; color: var(--warn); }
+    .best { color: var(--good); font-weight: 700; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .section { margin-top: 20px; }
+    ul { padding-left: 20px; }
+    .mini { font-size: 13px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Reykjavik brunch mapa</h1>
+    <div class="sub">Sve na jednom mjestu: karta, okvirne cijene, vibe, best pick po tipu i kratka procjena koliko je mjesto touristy vs stvarno dobro. Cijene su okvirne i mogu malo varirati.</div>
+
+    <div class="grid">
+      <div class="panel">
+        <iframe id="map" src="https://www.openstreetmap.org/export/embed.html?bbox=-21.97%2C64.13%2C-21.88%2C64.17&layer=mapnik&marker=64.1459%2C-21.9236"></iframe>
+        <div class="content">
+          <strong>Kako koristiti mapu</strong>
+          <div class="mini">Klikni "Open in Google Maps" kod svakog mjesta za navigaciju. Sva mjesta su u širem centru Reykjavika, osim što je Brikk malo istočnije.</div>
+          <div class="legend">
+            <span class="chip">₽ budget</span>
+            <span class="chip">₽₽ srednje</span>
+            <span class="chip">₽₽₽ skuplje</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel content">
+        <h2>Brzi sažetak</h2>
+        <ul>
+          <li><span class="best">Best overall:</span> Sandholt</li>
+          <li><span class="best">Best pastry stop:</span> Brauð & Co</li>
+          <li><span class="best">Best classic breakfast:</span> Grái Kötturinn</li>
+          <li><span class="best">Best coffee:</span> Reykjavík Roasters</li>
+          <li><span class="best">Best value:</span> Kaffivagninn</li>
+          <li><span class="best">Best Icelandic vibe:</span> Café Loki</li>
+          <li><span class="best">Best casual central option:</span> The Laundromat Cafe</li>
+          <li><span class="best">Least touristy vibe from list:</span> Brikk</li>
+        </ul>
+
+        <div class="section">
+          <h2>Moja preporuka</h2>
+          <ul>
+            <li>Ako ideš samo jednom, idi u <strong>Sandholt</strong>.</li>
+            <li>Ako hoćeš baš ozbiljan breakfast tanjur, idi u <strong>Grái Kötturinn</strong>.</li>
+            <li>Ako hoćeš kava + pecivo + lagano, idi u <strong>Reykjavík Roasters</strong> ili <strong>Brauð & Co</strong>.</li>
+            <li>Ako želiš nešto islandskije, idi u <strong>Café Loki</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel section">
+      <div class="cards">
+<div class="card">
+          <h2>Sandholt</h2>
+          <div class="meta">Laugavegur 36, 101 Reykjavík</div>
+          <div><span class="price">Cijena:</span> ₽₽, otprilike 1.500–1.800 ISK za breakfast plate; kava ~550 ISK; sendviči ~1.400 ISK</div>
+          <div><span class="best">Best for:</span> Best overall</div>
+          <p>Najsigurniji all-round izbor. Bakery + pravi brunch.</p>
+          <p><strong>Tourist trap check:</strong> Nije trap, ali zna biti gužva</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Sandholt%2C%20Laugavegur%2036%2C%20101%20Reykjav%C3%ADk" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+<div class="card">
+          <h2>Brauð & Co</h2>
+          <div class="meta">Frakkastígur 16, 101 Reykjavík</div>
+          <div><span class="price">Cijena:</span> ₽, peciva ~300–490 ISK; kruh ~890–1.190 ISK</div>
+          <div><span class="best">Best for:</span> Best quick pastry stop</div>
+          <p>Top za pecivo i kavu, manje za puni sjedeći brunch.</p>
+          <p><strong>Tourist trap check:</strong> Nije trap, više bakery nego brunch restoran</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Brau%C3%B0%20%26%20Co%2C%20Frakkast%C3%ADgur%2016%2C%20101%20Reykjav%C3%ADk" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+<div class="card">
+          <h2>Grái Kötturinn</h2>
+          <div class="meta">Hverfisgata 16a, 101 Reykjavík</div>
+          <div><span class="price">Cijena:</span> ₽₽, okvirno 2.000–3.500 ISK; bagel viđen oko 2.600 ISK</div>
+          <div><span class="best">Best for:</span> Best classic breakfast</div>
+          <p>Cozy, američki breakfast vibe, poznat po velikim tanjurima.</p>
+          <p><strong>Tourist trap check:</strong> Poznat, ali legit dobar</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Gr%C3%A1i%20K%C3%B6tturinn%2C%20Hverfisgata%2016a%2C%20101%20Reykjav%C3%ADk" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+<div class="card">
+          <h2>Reykjavík Roasters</h2>
+          <div class="meta">Kárastígur 1, 101 Reykjavík</div>
+          <div><span class="price">Cijena:</span> ₽₽, kava + lakši doručak obično srednji rang</div>
+          <div><span class="best">Best for:</span> Best coffee-first brunch</div>
+          <p>Najbolji za specialty coffee + lagani brunch.</p>
+          <p><strong>Tourist trap check:</strong> Ne, ali nije mjesto za ogroman brunch</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Reykjav%C3%ADk%20Roasters%2C%20K%C3%A1rast%C3%ADgur%201%2C%20101%20Reykjav%C3%ADk" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+<div class="card">
+          <h2>Brikk</h2>
+          <div class="meta">Háteigsvegur 1, 105 Reykjavík</div>
+          <div><span class="price">Cijena:</span> ₽₽, okvirno 2.000–4.000 ISK po osobi</div>
+          <div><span class="best">Best for:</span> Best if want less touristy feel</div>
+          <p>Waffle/brunch mjesto, malo van glavnog turističkog toka.</p>
+          <p><strong>Tourist trap check:</strong> Manje touristy</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Brikk%2C%20H%C3%A1teigsvegur%201%2C%20105%20Reykjav%C3%ADk" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+<div class="card">
+          <h2>The Laundromat Cafe</h2>
+          <div class="meta">Austurstræti 9, 101 Reykjavík</div>
+          <div><span class="price">Cijena:</span> ₽₽₽, brunch 4.199–4.299 ISK; pancakes 2.399 ISK; avocado toast 3.399 ISK</div>
+          <div><span class="best">Best for:</span> Best central/casual pick</div>
+          <p>Casual, centralno, dobar izbor ako želiš raznolik meni i dugo sjedenje.</p>
+          <p><strong>Tourist trap check:</strong> Malo više tourist-friendly, ali praktično</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=The%20Laundromat%20Cafe%2C%20Austurstr%C3%A6ti%209%2C%20101%20Reykjav%C3%ADk" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+<div class="card">
+          <h2>Kaffivagninn</h2>
+          <div class="meta">Grandagarði 10, 101 Reykjavík</div>
+          <div><span class="price">Cijena:</span> ₽₽, breakfast 990–1.890 ISK</div>
+          <div><span class="best">Best for:</span> Best budget/value pick</div>
+          <p>Kod luke, old-school, dobar value i lijepa šetnja uz harbor.</p>
+          <p><strong>Tourist trap check:</strong> Ne, više old-school lokalni vibe</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Kaffivagninn%2C%20Grandagar%C3%B0i%2010%2C%20101%20Reykjav%C3%ADk" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+<div class="card">
+          <h2>Café Loki</h2>
+          <div class="meta">Lokastígur 28, 101 Reykjavík</div>
+          <div><span class="price">Cijena:</span> ₽₽₽, jela okvirno 2.500–3.500 ISK</div>
+          <div><span class="best">Best for:</span> Best Icelandic-style brunch/lunch</div>
+          <p>Najbolje ako želiš islandski štih i pogled na Hallgrímskirkja zonu.</p>
+          <p><strong>Tourist trap check:</strong> Popularno kod turista, ali ima smisla zbog lokacije i lokalnih jela</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Caf%C3%A9%20Loki%2C%20Lokast%C3%ADgur%2028%2C%20101%20Reykjav%C3%ADk" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section mini">
+      Izvori: službene stranice restorana gdje dostupno, plus javno dostupni meniji, agregatori i recent travel/food izvori. Koristio sam okvirne raspone cijena kad puni službeni menu nije bio lako dostupan.
+    </div>
+  </div>
+</body>
+</html>
