@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Splitboard checklista</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0f1720;
+      --panel: #17212b;
+      --panel-2: #1f2c39;
+      --text: #eef4fb;
+      --muted: #96a6b7;
+      --accent: #74c0fc;
+      --ok: #7ee787;
+      --border: rgba(255,255,255,0.09);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --panel-2: #f0f4f8;
+        --text: #0f1720;
+        --muted: #5d6b78;
+        --accent: #0b6bcb;
+        --ok: #0d8b4a;
+        --border: rgba(0,0,0,0.08);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 18px 80px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.05;
+    }
+    .sub {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    button {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font: inherit;
+      cursor: pointer;
+    }
+    button:hover { border-color: var(--accent); }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+    .hint {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: -4px;
+      margin-bottom: 10px;
+    }
+    .item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+    }
+    .item:first-of-type { border-top: 0; }
+    input[type="checkbox"] {
+      margin-top: 3px;
+      width: 20px;
+      height: 20px;
+      accent-color: var(--ok);
+      flex: 0 0 auto;
+    }
+    label {
+      flex: 1;
+      cursor: pointer;
+    }
+    .done label {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    .footer {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 18px;
+    }
+    .sticky {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      background: color-mix(in oklab, var(--bg) 78%, transparent);
+      padding: 12px 0 14px;
+      margin-bottom: 10px;
+    }
+    .count {
+      color: var(--accent);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="sticky">
+      <h1>Splitboard checklista</h1>
+      <div class="sub">Brzi pregled prije izlaska iz stana. Označi što si ponio, pa ne razmišljaj usput. <span class="count" id="count"></span></div>
+      <div class="toolbar">
+        <button type="button" onclick="resetList()">Resetiraj sve</button>
+        <button type="button" onclick="checkBasics()">Označi osnove</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Osnovno</h2>
+      <div class="hint">Bez ovoga nema smisla krenuti.</div>
+      <div class="item"><input id="i1" type="checkbox"><label for="i1">Splitboard</label></div>
+      <div class="item"><input id="i2" type="checkbox"><label for="i2">Pancerice / snowboard boots</label></div>
+      <div class="item"><input id="i3" type="checkbox"><label for="i3">Vezovi</label></div>
+      <div class="item"><input id="i4" type="checkbox"><label for="i4">Skins</label></div>
+      <div class="item"><input id="i5" type="checkbox"><label for="i5">Štapovi</label></div>
+      <div class="item"><input id="i6" type="checkbox"><label for="i6">Kaciga</label></div>
+      <div class="item"><input id="i7" type="checkbox"><label for="i7">Naočale / goggles</label></div>
+      <div class="item"><input id="i8" type="checkbox"><label for="i8">Sunčane naočale</label></div>
+    </div>
+
+    <div class="card">
+      <h2>Sigurnost</h2>
+      <div class="hint">Ovo posebno ne zaboraviti ako ideš van skijališta / u backcountry.</div>
+      <div class="item"><input id="i9" type="checkbox"><label for="i9">Avalanche beacon</label></div>
+      <div class="item"><input id="i10" type="checkbox"><label for="i10">Shovel</label></div>
+      <div class="item"><input id="i11" type="checkbox"><label for="i11">Probe</label></div>
+      <div class="item"><input id="i12" type="checkbox"><label for="i12">Prva pomoć</label></div>
+      <div class="item"><input id="i13" type="checkbox"><label for="i13">Mobitel</label></div>
+      <div class="item"><input id="i14" type="checkbox"><label for="i14">Power bank</label></div>
+      <div class="item"><input id="i15" type="checkbox"><label for="i15">Čeona / headlamp</label></div>
+    </div>
+
+    <div class="card">
+      <h2>Odjeća</h2>
+      <div class="item"><input id="i16" type="checkbox"><label for="i16">Base layer</label></div>
+      <div class="item"><input id="i17" type="checkbox"><label for="i17">Mid layer / fleece</label></div>
+      <div class="item"><input id="i18" type="checkbox"><label for="i18">Shell jakna</label></div>
+      <div class="item"><input id="i19" type="checkbox"><label for="i19">Shell hlače</label></div>
+      <div class="item"><input id="i20" type="checkbox"><label for="i20">Rukavice</label></div>
+      <div class="item"><input id="i21" type="checkbox"><label for="i21">Rezervne rukavice</label></div>
+      <div class="item"><input id="i22" type="checkbox"><label for="i22">Buff / kapa</label></div>
+      <div class="item"><input id="i23" type="checkbox"><label for="i23">Rezervne čarape</label></div>
+    </div>
+
+    <div class="card">
+      <h2>Hrana i piće</h2>
+      <div class="item"><input id="i24" type="checkbox"><label for="i24">Voda / piće</label></div>
+      <div class="item"><input id="i25" type="checkbox"><label for="i25">Hrana</label></div>
+      <div class="item"><input id="i26" type="checkbox"><label for="i26">Snack / gel / čokoladica</label></div>
+      <div class="item"><input id="i27" type="checkbox"><label for="i27">Termosica (ako treba)</label></div>
+    </div>
+
+    <div class="card">
+      <h2>Ostalo</h2>
+      <div class="item"><input id="i28" type="checkbox"><label for="i28">Ruksak</label></div>
+      <div class="item"><input id="i29" type="checkbox"><label for="i29">Sunscreen</label></div>
+      <div class="item"><input id="i30" type="checkbox"><label for="i30">Lip balm</label></div>
+      <div class="item"><input id="i31" type="checkbox"><label for="i31">Ključevi</label></div>
+      <div class="item"><input id="i32" type="checkbox"><label for="i32">Novčanik / dokumenti</label></div>
+      <div class="item"><input id="i33" type="checkbox"><label for="i33">Auto ključ / organizacija prijevoza</label></div>
+      <div class="item"><input id="i34" type="checkbox"><label for="i34">Mala repair stvarčica (strap, multitool, tape)</label></div>
+    </div>
+
+    <div class="footer">Ako hoćeš, mogu ti složiti i drugu verziju: ultrakratku “izlazim iz stana” listu ili ozbiljniju backcountry verziju s vremenskom prognozom, rutom i avalanche checkovima.</div>
+  </div>
+
+  <script>
+    const boxes = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+    const count = document.getElementById('count');
+    const key = 'splitboard-checklist-v1';
+
+    function render() {
+      let checked = 0;
+      boxes.forEach(box => {
+        box.parentElement.classList.toggle('done', box.checked);
+        if (box.checked) checked++;
+      });
+      count.textContent = `${checked}/${boxes.length} označeno`;
+      localStorage.setItem(key, JSON.stringify(boxes.map(b => b.checked)));
+    }
+
+    function load() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(key) || '[]');
+        boxes.forEach((box, i) => box.checked = !!saved[i]);
+      } catch {}
+      render();
+    }
+
+    function resetList() {
+      boxes.forEach(box => box.checked = false);
+      render();
+    }
+
+    function checkBasics() {
+      ['i1','i2','i3','i4','i5','i6','i7','i20','i24','i25','i28','i31','i33'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.checked = true;
+      });
+      render();
+    }
+
+    boxes.forEach(box => box.addEventListener('change', render));
+    load();
+  </script>
+</body>
+</html>
