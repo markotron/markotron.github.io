@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chicken Feta Chickpea Salad — Ember Canvas</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #171a21;
+      --panel-2: #1e2430;
+      --text: #edf2f7;
+      --muted: #a9b3c1;
+      --accent: #ff8a3d;
+      --accent-2: #ffd166;
+      --good: #7bd389;
+      --warn: #ffb703;
+      --border: #2b3442;
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #0c0e13 0%, #11151d 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(255,138,61,.18), rgba(255,209,102,.08));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+    .eyebrow {
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    h1 {
+      margin: 8px 0 10px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.05;
+    }
+    .sub {
+      color: var(--muted);
+      max-width: 780px;
+      font-size: 17px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .chip {
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 20px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 22px;
+    }
+    .card h3 {
+      margin: 18px 0 10px;
+      font-size: 16px;
+      color: var(--accent-2);
+    }
+    ul, ol {
+      margin: 10px 0 0 18px;
+      padding: 0;
+    }
+    li { margin: 6px 0; }
+    .muted { color: var(--muted); }
+    .kpi {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .kpi .box {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .kpi .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .kpi .value {
+      margin-top: 6px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .note {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .footer {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+    @media (max-width: 860px) {
+      .grid, .two, .kpi { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Ember Recipe Canvas</div>
+      <h1>Bogata salata s piletinom, fetom i slanutkom</h1>
+      <p class="sub">Prvi pravi zapis recepta: zdraviji fokus, ali i dalje pravi obrok. Cilj je salata koja je zasitna, proteinski jaka, svježa i vrijedna ponavljanja.</p>
+      <div class="chips">
+        <span class="chip">high-protein</span>
+        <span class="chip">salad</span>
+        <span class="chip">healthy-focus</span>
+        <span class="chip">worth-repeating</span>
+        <span class="chip">2 osobe</span>
+      </div>
+      <div class="kpi">
+        <div class="box"><div class="label">Protein</div><div class="value">piletina + feta + slanutak</div></div>
+        <div class="box"><div class="label">Porcije</div><div class="value">2 velike</div></div>
+        <div class="box"><div class="label">Status</div><div class="value">Attempt 01 zabilježen</div></div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Finalni recept — radna baza</h2>
+        <div class="two">
+          <div>
+            <h3>Sastojci</h3>
+            <ul>
+              <li>300–500 g piletine za 2 osobe <span class="muted">(sweet spot najčešće 350–400 g)</span></li>
+              <li>zelena salata</li>
+              <li>ribana mrkva</li>
+              <li>kupus</li>
+              <li>1 krastavac</li>
+              <li>250 g cherry rajčica</li>
+              <li>slanutak <span class="muted">(umjereno, ne previše)</span></li>
+              <li>100–150 g fete</li>
+            </ul>
+
+            <h3>Za piletinu</h3>
+            <ul>
+              <li>maslinovo ulje</li>
+              <li>sol</li>
+              <li>papar</li>
+              <li>češnjak u prahu</li>
+              <li>paprika</li>
+            </ul>
+
+            <h3>Dressing</h3>
+            <ul>
+              <li>grčki jogurt</li>
+              <li>dijon</li>
+              <li>limunov sok</li>
+              <li>maslinovo ulje</li>
+              <li><strong>sol</strong></li>
+              <li>papar</li>
+              <li>po potrebi malo vode za lakšu teksturu</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Metoda</h3>
+            <ol>
+              <li>Začini i ispeci piletinu da dobije boju, pa je pusti da odmori.</li>
+              <li>Drži bazu salate hladnom i hrskavom.</li>
+              <li>Slanutak koristi na sobnoj temperaturi ili jedva mlak.</li>
+              <li>Napravi dressing i obavezno ga dobro posoli.</li>
+              <li>Lagano obloži bazu dressingom, pa dodaj piletinu i fetu.</li>
+              <li>Završi s dodatnom svježinom ako treba: više limuna, krastavca, rajčice ili bilja.</li>
+            </ol>
+
+            <div class="note">
+              Cilj nije teška, mokra salata nego <strong>svjež, hrskav i zasitan obrok</strong> s dobrim balansom soli, kiseline i kremoznosti.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="card">
+        <h2>Što smo naučili iz attempta 01</h2>
+        <h3 class="good">Što je uspjelo</h3>
+        <ul>
+          <li>struktura jela radi</li>
+          <li>salata je bila stvarno zasitna</li>
+          <li>vrijedna je ponavljanja</li>
+          <li>piletina + feta + slanutak daju pravi “meal” osjećaj</li>
+        </ul>
+
+        <h3 class="warn">Što je falilo</h3>
+        <ul>
+          <li>dressing nije bio posoljen</li>
+          <li>falilo je malo svježine / lift-a</li>
+          <li>topli vakumirani slanutak je salatu učinio pretoplom</li>
+          <li>feta je bila blaga / fake feta pa nije dala dovoljno slanosti i tang-a</li>
+        </ul>
+
+        <h3>Kalibracija porcije</h3>
+        <ul>
+          <li>kuhano je dosta od oka</li>
+          <li>s ~400 g piletine i ~150 g fete ispalo je previše za 2 osobe</li>
+          <li>dosta slanutka je dodatno diglo volumen</li>
+        </ul>
+      </aside>
+    </div>
+
+    <section class="card" style="margin-top:20px;">
+      <h2>Version 2 tweaks</h2>
+      <div class="two">
+        <div>
+          <ol>
+            <li><strong>Posoliti dressing.</strong> Bez toga jogurt-dijon baza ostaje previše mutna.</li>
+            <li><strong>Pojačati svježinu.</strong> Malo više limuna, više krastavca ili rajčice, eventualno bilje.</li>
+            <li><strong>Držati temperaturu pod kontrolom.</strong> Piletina može biti mlaka, ali baza mora ostati hladna i crisp.</li>
+          </ol>
+        </div>
+        <div>
+          <ol start="4">
+            <li><strong>Slanutak koristiti umjereno.</strong> Dovoljno za sitost, ali ne toliko da salata postane prevelika i teška.</li>
+            <li><strong>Bolja feta ili kompenzacija.</strong> Ako je sir blag, pojačaj sol, limun, masline ili drugi slano-kiseli element.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:20px;">
+      <h2>Brzi shopping / pantry context</h2>
+      <div class="two">
+        <div>
+          <h3>Vjerojatno doma</h3>
+          <ul>
+            <li>zelena salata</li>
+            <li>mrkva</li>
+            <li>kupus</li>
+            <li>feta</li>
+            <li>jogurt</li>
+            <li>dijon</li>
+            <li>krastavac</li>
+            <li>cherry rajčice</li>
+            <li>slanutak</li>
+            <li>bademi</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Radna pravila</h3>
+          <ul>
+            <li>pasta i riža mogu se pretpostaviti kao uvijek dostupne</li>
+            <li>šampinjone treba uskoro trošiti</li>
+            <li>2 cijele patke i mlinci su u zamrzivaču</li>
+            <li>kvarljive stvari uvijek kratko potvrditi prije finalnog recepta</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      Lokalni canvas file za Ember workspace · recipes/chicken-feta-chickpea-salad/canvas.html
+    </div>
+  </div>
+</body>
+</html>
