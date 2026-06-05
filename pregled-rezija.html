@@ -1,757 +1,785 @@
-
 <!DOCTYPE html>
 <html lang="hr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pregled režija i grafovi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pregled troškova režija</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {
-      --bg-color: #f3f4f6;
-      --card-bg: #ffffff;
-      --text-main: #111827;
-      --text-muted: #6b7280;
-      --border-color: #e5e7eb;
-      --status-paid-bg: #d1fae5;
-      --status-paid-text: #065f46;
-      --status-pending-bg: #fee2e2;
-      --status-pending-text: #991b1b;
-      --badge-bg: #e0e7ff;
-      --badge-text: #3730a3;
-      --tab-bg: #e5e7eb;
-      --tab-active: #ffffff;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-color: #111827;
-        --card-bg: #1f2937;
-        --text-main: #f9fafb;
-        --text-muted: #9ca3af;
-        --border-color: #374151;
-        --status-paid-bg: #064e3b;
-        --status-paid-text: #34d399;
-        --status-pending-bg: #7f1d1d;
-        --status-pending-text: #fca5a5;
-        --badge-bg: #312e81;
-        --badge-text: #a5b4fc;
-        --tab-bg: #374151;
-        --tab-active: #1f2937;
-      }
-    }
-    * {
-      box-sizing: border-box;
-    }
-    body { 
-      font-family: system-ui, -apple-system, sans-serif; 
-      max-width: 900px; 
-      margin: 0 auto; 
-      padding: 15px;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      line-height: 1.5;
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px;
+      background-color: #f8fafc;
+      color: #0f172a;
     }
     h1 {
       text-align: center;
-      margin-top: 10px;
-      margin-bottom: 20px;
+      color: #1e293b;
       font-size: 1.5rem;
+      margin: 16px 0 24px;
     }
     .tabs {
       display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      background-color: var(--tab-bg);
-      padding: 4px;
-      border-radius: 8px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 24px;
+      overflow-x: auto;
     }
     .tab-btn {
-      flex: 1;
-      padding: 10px;
+      padding: 12px 24px;
+      background: none;
       border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.95rem;
-      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #64748b;
       cursor: pointer;
-      transition: background-color 0.2s, color 0.2s;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
     }
     .tab-btn.active {
-      background-color: var(--tab-active);
-      color: var(--text-main);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      color: #3b82f6;
+      border-bottom: 2px solid #3b82f6;
     }
     .tab-content {
       display: none;
+      animation: fadeIn 0.3s ease-in-out;
     }
     .tab-content.active {
       display: block;
     }
-    
-    .month-section {
-      background-color: var(--card-bg);
-      border-radius: 10px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       margin-bottom: 20px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
     }
     .month-header {
-      background-color: rgba(0,0,0,0.02);
-      padding: 12px 15px;
-      border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
     }
     .month-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-    .badges {
+      font-size: 1.25rem;
+      font-weight: 600;
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+      align-items: center;
+      gap: 12px;
     }
     .badge {
-      font-size: 0.7rem;
-      padding: 3px 8px;
-      border-radius: 9999px;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
       font-weight: 600;
     }
-    .badge-all {
-      background-color: var(--badge-bg);
-      color: var(--badge-text);
+    .badge-complete {
+      background-color: #dcfce7;
+      color: #166534;
     }
-    
-    .item-list {
-      display: flex;
-      flex-direction: column;
+    .badge-incomplete {
+      background-color: #fef9c3;
+      color: #854d0e;
     }
-    .item-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 15px;
-      border-bottom: 1px solid var(--border-color);
-      gap: 10px;
+    .total-amount {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
     }
-    .item-row:last-child {
-      border-bottom: none;
+    .table-container {
+      overflow-x: auto;
     }
-    .item-info {
-      flex: 1 1 auto;
-      min-width: 0; /* allows text truncation */
-    }
-    .item-dobavljac {
-      font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .item-kategorija {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-    .item-status {
-      flex: 0 0 auto;
-    }
-    .item-amount {
-      flex: 0 0 auto;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-weight: 600;
-      text-align: right;
-      min-width: 65px;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 9999px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-    .status.plaćeno {
-      background-color: var(--status-paid-bg);
-      color: var(--status-paid-text);
-    }
-    .status.čeka {
-      background-color: var(--status-pending-bg);
-      color: var(--status-pending-text);
-    }
-    
-    .chart-container {
-      background-color: var(--card-bg);
-      border-radius: 10px;
-      padding: 15px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      position: relative;
-      height: 50vh;
+    table {
       width: 100%;
+      border-collapse: collapse;
+      min-width: 500px;
     }
-
-    /* Mobile specific adjustments */
-    @media (max-width: 500px) {
-      body {
-        padding: 10px;
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    th {
+      font-weight: 600;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    td.amount {
+      font-weight: 500;
+      text-align: right;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    select {
+      padding: 10px 16px;
+      font-size: 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background-color: white;
+      color: #334155;
+      cursor: pointer;
+      outline: none;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      max-width: 100%;
+    }
+    .chart-container {
+      position: relative;
+      height: 60vh;
+      width: 100%;
+      min-height: 300px;
+    }
+    
+    @media (max-width: 600px) {
+      .month-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
       }
-      .item-row {
-        flex-wrap: wrap;
+      .total-amount {
+        align-self: flex-end;
       }
-      .item-info {
-        flex: 1 1 100%;
-        margin-bottom: 4px;
+      .card {
+        padding: 16px;
       }
-      .item-dobavljac {
-        font-size: 1rem;
-      }
-      .item-status {
-        flex: 1 1 auto;
-      }
-      .item-amount {
-        flex: 0 0 auto;
-        font-size: 1rem;
-      }
-      .chart-container {
-        height: 60vh;
-        padding: 10px;
+      th, td {
+        padding: 8px;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Pregled režija i grafovi</h1>
-  
+  <h1>Pregled režija</h1>
+
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('lista')" id="btn-lista">Popis</button>
-    <button class="tab-btn" onclick="switchTab('graf')" id="btn-graf">Graf</button>
+    <button class="tab-btn active" onclick="switchTab('tab-mjeseci')">Po mjesecima</button>
+    <button class="tab-btn" onclick="switchTab('tab-graf')">Graf po stavci</button>
   </div>
 
-  <div id="lista" class="tab-content active">
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2026-06</span>
-        <div class="badges">
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€7.95</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Pričuva SZP Ulica Poduzetnika 16A-16D</div>
-            <div class="item-kategorija">pričuva</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€39.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2026-05</span>
-        <div class="badges">
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€7.96</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Pričuva SZP Ulica Poduzetnika 16A-16D</div>
-            <div class="item-kategorija">pričuva</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€39.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2026-04</span>
-        <div class="badges">
-          <span class="badge badge-all">✓ Svi osnovni</span>
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">6. Maj</div>
-            <div class="item-kategorija">odvoz otpada</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€10.18</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">A1</div>
-            <div class="item-kategorija">internet</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€0.10</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€7.96</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">HEP Elektra</div>
-            <div class="item-kategorija">struja</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€49.06</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Pričuva SZP Ulica Poduzetnika 16A-16D</div>
-            <div class="item-kategorija">pričuva</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€39.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2026-03</span>
-        <div class="badges">
-          <span class="badge badge-all">✓ Svi osnovni</span>
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">6. Maj</div>
-            <div class="item-kategorija">odvoz otpada</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€10.18</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">A1</div>
-            <div class="item-kategorija">internet</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€0.10</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€7.96</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">HEP Elektra</div>
-            <div class="item-kategorija">struja</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€63.79</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Istarski vodovod</div>
-            <div class="item-kategorija">voda</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€17.19</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Pričuva SZP Ulica Poduzetnika 16A-16D</div>
-            <div class="item-kategorija">pričuva</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€39.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2026-02</span>
-        <div class="badges">
-          <span class="badge badge-all">✓ Svi osnovni</span>
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">6. Maj</div>
-            <div class="item-kategorija">odvoz otpada</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€10.18</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">A1</div>
-            <div class="item-kategorija">internet</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€0.10</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€7.96</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">HEP Elektra</div>
-            <div class="item-kategorija">struja</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€54.42</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Istarski vodovod</div>
-            <div class="item-kategorija">voda</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€8.60</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Pričuva SZP Ulica Poduzetnika 16A-16D</div>
-            <div class="item-kategorija">pričuva</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€39.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2026-01</span>
-        <div class="badges">
-          <span class="badge badge-all">✓ Svi osnovni</span>
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">6. Maj</div>
-            <div class="item-kategorija">odvoz otpada</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€10.18</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">A1</div>
-            <div class="item-kategorija">internet</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€1.10</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€7.96</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">HEP Elektra</div>
-            <div class="item-kategorija">struja</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€41.61</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Istarski vodovod</div>
-            <div class="item-kategorija">voda</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€10.65</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Pričuva SZP Ulica Poduzetnika 16A-16D</div>
-            <div class="item-kategorija">pričuva</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€39.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2025-12</span>
-        <div class="badges">
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">6. Maj</div>
-            <div class="item-kategorija">odvoz otpada</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€5.83</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€1.84</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">HEP Elektra</div>
-            <div class="item-kategorija">struja</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€33.58</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Istarski vodovod</div>
-            <div class="item-kategorija">voda</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€6.42</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Pričuva SZP Ulica Poduzetnika 16A-16D</div>
-            <div class="item-kategorija">pričuva</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€39.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2025-11</span>
-        <div class="badges">
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">6. Maj</div>
-            <div class="item-kategorija">odvoz otpada</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€5.84</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€1.85</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">HEP Elektra</div>
-            <div class="item-kategorija">struja</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€10.58</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Istarski vodovod</div>
-            <div class="item-kategorija">voda</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€4.66</div>
-        </div>
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Pričuva SZP Ulica Poduzetnika 16A-16D</div>
-            <div class="item-kategorija">pričuva</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€39.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2025-10</span>
-        <div class="badges">
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€1.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2025-09</span>
-        <div class="badges">
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€1.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2025-08</span>
-        <div class="badges">
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€1.85</div>
-        </div>
-      </div>
-    </div>
-    <div class="month-section">
-      <div class="month-header">
-        <span class="month-title">2025-07</span>
-        <div class="badges">
-          <span class="badge status plaćeno">Sve plaćeno</span>
-        </div>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-info">
-            <div class="item-dobavljac">Grad Umag</div>
-            <div class="item-kategorija">komunalije</div>
-          </div>
-          <div class="item-status"><span class="status plaćeno">plaćeno</span></div>
-          <div class="item-amount">€1.85</div>
-        </div>
-      </div>
-    </div>
+  <div id="tab-mjeseci" class="tab-content active">
 
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2026-06</span>
+          <span class="badge badge-incomplete">Nedostaju računi ⚠</span>
+        </div>
+        <div class="total-amount">Ukupno: 47.80 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>pričuva</td>
+              <td>Pričuva SZP Ulica Poduzetnika 16A-16D</td>
+              <td>plaćeno</td>
+              <td class="amount">39.85 €</td>
+            </tr>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">7.95 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2026-05</span>
+          <span class="badge badge-incomplete">Nedostaju računi ⚠</span>
+        </div>
+        <div class="total-amount">Ukupno: 47.81 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>pričuva</td>
+              <td>Pričuva SZP Ulica Poduzetnika 16A-16D</td>
+              <td>plaćeno</td>
+              <td class="amount">39.85 €</td>
+            </tr>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">7.96 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2026-04</span>
+          <span class="badge badge-incomplete">Nedostaju računi ⚠</span>
+        </div>
+        <div class="total-amount">Ukupno: 107.15 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>pričuva</td>
+              <td>Pričuva SZP Ulica Poduzetnika 16A-16D</td>
+              <td>plaćeno</td>
+              <td class="amount">39.85 €</td>
+            </tr>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">7.96 €</td>
+            </tr>
+            <tr>
+              <td>odvoz otpada</td>
+              <td>6. Maj</td>
+              <td>plaćeno</td>
+              <td class="amount">10.18 €</td>
+            </tr>
+            <tr>
+              <td>struja</td>
+              <td>HEP Elektra</td>
+              <td>plaćeno</td>
+              <td class="amount">49.06 €</td>
+            </tr>
+            <tr>
+              <td>internet</td>
+              <td>A1</td>
+              <td>plaćeno</td>
+              <td class="amount">0.10 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2026-03</span>
+          <span class="badge badge-complete">Svi računi plaćeni ✓</span>
+        </div>
+        <div class="total-amount">Ukupno: 139.07 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>pričuva</td>
+              <td>Pričuva SZP Ulica Poduzetnika 16A-16D</td>
+              <td>plaćeno</td>
+              <td class="amount">39.85 €</td>
+            </tr>
+            <tr>
+              <td>voda</td>
+              <td>Istarski vodovod</td>
+              <td>plaćeno</td>
+              <td class="amount">17.19 €</td>
+            </tr>
+            <tr>
+              <td>internet</td>
+              <td>A1</td>
+              <td>plaćeno</td>
+              <td class="amount">0.10 €</td>
+            </tr>
+            <tr>
+              <td>struja</td>
+              <td>HEP Elektra</td>
+              <td>plaćeno</td>
+              <td class="amount">63.79 €</td>
+            </tr>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">7.96 €</td>
+            </tr>
+            <tr>
+              <td>odvoz otpada</td>
+              <td>6. Maj</td>
+              <td>plaćeno</td>
+              <td class="amount">10.18 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2026-02</span>
+          <span class="badge badge-complete">Svi računi plaćeni ✓</span>
+        </div>
+        <div class="total-amount">Ukupno: 121.11 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>internet</td>
+              <td>A1</td>
+              <td>plaćeno</td>
+              <td class="amount">0.10 €</td>
+            </tr>
+            <tr>
+              <td>struja</td>
+              <td>HEP Elektra</td>
+              <td>plaćeno</td>
+              <td class="amount">54.42 €</td>
+            </tr>
+            <tr>
+              <td>pričuva</td>
+              <td>Pričuva SZP Ulica Poduzetnika 16A-16D</td>
+              <td>plaćeno</td>
+              <td class="amount">39.85 €</td>
+            </tr>
+            <tr>
+              <td>odvoz otpada</td>
+              <td>6. Maj</td>
+              <td>plaćeno</td>
+              <td class="amount">10.18 €</td>
+            </tr>
+            <tr>
+              <td>voda</td>
+              <td>Istarski vodovod</td>
+              <td>plaćeno</td>
+              <td class="amount">8.60 €</td>
+            </tr>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">7.96 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2026-01</span>
+          <span class="badge badge-complete">Svi računi plaćeni ✓</span>
+        </div>
+        <div class="total-amount">Ukupno: 111.35 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>internet</td>
+              <td>A1</td>
+              <td>plaćeno</td>
+              <td class="amount">1.10 €</td>
+            </tr>
+            <tr>
+              <td>struja</td>
+              <td>HEP Elektra</td>
+              <td>plaćeno</td>
+              <td class="amount">41.61 €</td>
+            </tr>
+            <tr>
+              <td>voda</td>
+              <td>Istarski vodovod</td>
+              <td>plaćeno</td>
+              <td class="amount">10.65 €</td>
+            </tr>
+            <tr>
+              <td>odvoz otpada</td>
+              <td>6. Maj</td>
+              <td>plaćeno</td>
+              <td class="amount">10.18 €</td>
+            </tr>
+            <tr>
+              <td>pričuva</td>
+              <td>Pričuva SZP Ulica Poduzetnika 16A-16D</td>
+              <td>plaćeno</td>
+              <td class="amount">39.85 €</td>
+            </tr>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">7.96 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2025-12</span>
+          <span class="badge badge-incomplete">Nedostaju računi ⚠</span>
+        </div>
+        <div class="total-amount">Ukupno: 87.52 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>struja</td>
+              <td>HEP Elektra</td>
+              <td>plaćeno</td>
+              <td class="amount">33.58 €</td>
+            </tr>
+            <tr>
+              <td>voda</td>
+              <td>Istarski vodovod</td>
+              <td>plaćeno</td>
+              <td class="amount">6.42 €</td>
+            </tr>
+            <tr>
+              <td>pričuva</td>
+              <td>Pričuva SZP Ulica Poduzetnika 16A-16D</td>
+              <td>plaćeno</td>
+              <td class="amount">39.85 €</td>
+            </tr>
+            <tr>
+              <td>odvoz otpada</td>
+              <td>6. Maj</td>
+              <td>plaćeno</td>
+              <td class="amount">5.83 €</td>
+            </tr>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">1.84 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2025-11</span>
+          <span class="badge badge-incomplete">Nedostaju računi ⚠</span>
+        </div>
+        <div class="total-amount">Ukupno: 62.78 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>struja</td>
+              <td>HEP Elektra</td>
+              <td>plaćeno</td>
+              <td class="amount">10.58 €</td>
+            </tr>
+            <tr>
+              <td>voda</td>
+              <td>Istarski vodovod</td>
+              <td>plaćeno</td>
+              <td class="amount">4.66 €</td>
+            </tr>
+            <tr>
+              <td>pričuva</td>
+              <td>Pričuva SZP Ulica Poduzetnika 16A-16D</td>
+              <td>plaćeno</td>
+              <td class="amount">39.85 €</td>
+            </tr>
+            <tr>
+              <td>odvoz otpada</td>
+              <td>6. Maj</td>
+              <td>plaćeno</td>
+              <td class="amount">5.84 €</td>
+            </tr>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">1.85 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2025-10</span>
+          <span class="badge badge-incomplete">Nedostaju računi ⚠</span>
+        </div>
+        <div class="total-amount">Ukupno: 1.85 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">1.85 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2025-09</span>
+          <span class="badge badge-incomplete">Nedostaju računi ⚠</span>
+        </div>
+        <div class="total-amount">Ukupno: 1.85 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">1.85 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2025-08</span>
+          <span class="badge badge-incomplete">Nedostaju računi ⚠</span>
+        </div>
+        <div class="total-amount">Ukupno: 1.85 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">1.85 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="month-header">
+        <div class="month-title">
+          <span>2025-07</span>
+          <span class="badge badge-incomplete">Nedostaju računi ⚠</span>
+        </div>
+        <div class="total-amount">Ukupno: 1.85 €</div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Kategorija</th>
+              <th>Dobavljač</th>
+              <th>Status</th>
+              <th style="text-align:right">Iznos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>komunalije</td>
+              <td>Grad Umag</td>
+              <td>plaćeno</td>
+              <td class="amount">1.85 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
-  <div id="graf" class="tab-content">
-    <div class="chart-container">
-      <canvas id="rezijeChart"></canvas>
+  <div id="tab-graf" class="tab-content">
+    <div class="card">
+      <div class="controls">
+        <select id="categorySelect">
+          <option value="komunalije">Komunalije</option>
+          <option value="struja">Struja</option>
+          <option value="voda">Voda</option>
+          <option value="pričuva">Pričuva</option>
+          <option value="odvoz otpada">Odvoz otpada</option>
+          <option value="internet">Internet</option>
+
+        </select>
+      </div>
+      <div class="chart-container">
+        <canvas id="myChart"></canvas>
+      </div>
     </div>
   </div>
 
   <script>
+    // Tab switching
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
       
       document.getElementById(tabId).classList.add('active');
-      document.getElementById('btn-' + tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
     }
 
-    const ctx = document.getElementById('rezijeChart').getContext('2d');
-    const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const textColor = isDark ? '#f9fafb' : '#111827';
-    const gridColor = isDark ? '#374151' : '#e5e7eb';
+    // Chart logic
+    const dataStore = {"komunalije":{"labels":["2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06"],"values":[1.85,1.85,1.85,1.85,1.85,1.84,7.96,7.96,7.96,7.96,7.96,7.95],"color":"rgba(59, 130, 246, 0.8)"},"struja":{"labels":["2025-11","2025-12","2026-01","2026-02","2026-03","2026-04"],"values":[10.58,33.58,41.61,54.42,63.79,49.06],"color":"rgba(14, 165, 233, 0.8)"},"voda":{"labels":["2025-11","2025-12","2026-01","2026-02","2026-03"],"values":[4.66,6.42,10.65,8.6,17.19],"color":"rgba(139, 92, 246, 0.8)"},"pričuva":{"labels":["2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06"],"values":[39.85,39.85,39.85,39.85,39.85,39.85,39.85,39.85],"color":"rgba(34, 197, 94, 0.8)"},"odvoz otpada":{"labels":["2025-11","2025-12","2026-01","2026-02","2026-03","2026-04"],"values":[5.84,5.83,10.18,10.18,10.18,10.18],"color":"rgba(249, 115, 22, 0.8)"},"internet":{"labels":["2026-01","2026-02","2026-03","2026-04"],"values":[1.1,0.1,0.1,0.1],"color":"rgba(239, 68, 68, 0.8)"}};
+    const ctx = document.getElementById('myChart').getContext('2d');
+    let myChart;
 
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ["2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"],
-        datasets: [{"label": "Grad Umag", "data": [1.85, 1.85, 1.85, 1.85, 1.85, 1.84, 7.96, 7.96, 7.96, 7.96, 7.96, 7.95], "borderColor": "#ef4444", "backgroundColor": "#ef4444", "borderWidth": 2, "tension": 0.1, "fill": false}, {"label": "HEP Elektra", "data": [0.0, 0.0, 0.0, 0.0, 10.58, 33.58, 41.61, 54.42, 63.79, 49.06, 0.0, 0.0], "borderColor": "#3b82f6", "backgroundColor": "#3b82f6", "borderWidth": 2, "tension": 0.1, "fill": false}, {"label": "Istarski vodovod", "data": [0.0, 0.0, 0.0, 0.0, 4.66, 6.42, 10.65, 8.6, 17.19, 0.0, 0.0, 0.0], "borderColor": "#10b981", "backgroundColor": "#10b981", "borderWidth": 2, "tension": 0.1, "fill": false}, {"label": "Pri\u010duva SZP Ulica Poduzetnika 16A-16D", "data": [0.0, 0.0, 0.0, 0.0, 39.85, 39.85, 39.85, 39.85, 39.85, 39.85, 39.85, 39.85], "borderColor": "#f59e0b", "backgroundColor": "#f59e0b", "borderWidth": 2, "tension": 0.1, "fill": false}, {"label": "6. Maj", "data": [0.0, 0.0, 0.0, 0.0, 5.84, 5.83, 10.18, 10.18, 10.18, 10.18, 0.0, 0.0], "borderColor": "#8b5cf6", "backgroundColor": "#8b5cf6", "borderWidth": 2, "tension": 0.1, "fill": false}, {"label": "A1", "data": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 0.1, 0.1, 0.1, 0.0, 0.0], "borderColor": "#ec4899", "backgroundColor": "#ec4899", "borderWidth": 2, "tension": 0.1, "fill": false}]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'top',
-            labels: { color: textColor, boxWidth: 12, font: { size: 10 } }
+    function renderChart(category) {
+      const data = dataStore[category];
+      if (!data) return;
+      
+      if (myChart) {
+        myChart.destroy();
+      }
+
+      myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: data.labels,
+          datasets: [{
+            label: 'Iznos (€)',
+            data: data.values,
+            backgroundColor: data.color,
+            borderRadius: 6,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.parsed.y.toFixed(2) + ' €';
+                }
+              }
+            }
           },
-          tooltip: {
-            mode: 'index',
-            intersect: false,
-            callbacks: {
-              label: function(context) {
-                let label = context.dataset.label || '';
-                if (label) {
-                  label += ': ';
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return value + ' €';
                 }
-                if (context.parsed.y !== null) {
-                  label += new Intl.NumberFormat('hr-HR', { style: 'currency', currency: 'EUR' }).format(context.parsed.y);
-                }
-                return label;
               }
             }
           }
-        },
-        scales: {
-          x: {
-            stacked: true,
-            ticks: { color: textColor, font: { size: 10 } },
-            grid: { color: gridColor, display: false }
-          },
-          y: {
-            stacked: true,
-            ticks: { color: textColor, font: { size: 10 } },
-            grid: { color: gridColor }
-          }
         }
-      }
+      });
+    }
+
+    const selectEl = document.getElementById('categorySelect');
+    renderChart(selectEl.value);
+
+    selectEl.addEventListener('change', (e) => {
+      renderChart(e.target.value);
     });
   </script>
 </body>
